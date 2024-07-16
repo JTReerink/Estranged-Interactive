@@ -4,12 +4,13 @@
 #include <ledstrip.h>
 
 /*number of leds on strip*/
-#define NUM_LEDS 14
+#define NUM_LEDS 60
 /*pin for data*/
 #define NEO_PIN 14
 
 #define sensor 4
 #define sensor2 15
+
 int state1 = LOW;  
 int state2 = LOW;  
 int val1 = 0;
@@ -25,6 +26,9 @@ void setup()
     pinMode(sensor, INPUT);
     pinMode(sensor2, INPUT);
 
+
+    strip.Init();
+
     // open Serial monitor voor debugging
     Serial.begin(115200);
     Serial.println("first print");
@@ -33,6 +37,8 @@ void setup()
 
 void loop()
 {
+
+    //red motionsensor
     val1 = digitalRead(sensor);
     if (val1 == HIGH)
     {

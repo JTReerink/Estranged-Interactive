@@ -8,12 +8,10 @@
 Ledstrip::Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed)
 {
     Serial.begin(115200);
-    Serial.println("1");
     this->strip = Adafruit_NeoPixel(leds, pin, NEO_GRB + NEO_KHZ800);
 
     this->startLed = startLed;
 
-    Serial.println("2");
 
     this->strip.setBrightness(255);
     this->strip.begin();
@@ -26,13 +24,18 @@ Ledstrip::Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed)
     this->leds = leds;
     this->pin = pin;
 
-    Serial.println("3");
     this->strip.clear();
-    Serial.println("4");
-    // this->strip.show();
-    Serial.println("5");
+    // this->strip.show();  WERKT NIET
 
 
+}
+
+void Ledstrip::Init() 
+{
+    for(int i = 0; i < leds; i++) {
+        this->strip.setPixelColor(i,0,0,0);
+        this->strip.show();
+    }
 }
 
 void Ledstrip::delay(unsigned long delay)
@@ -76,8 +79,8 @@ void Ledstrip::setAnimation(Animation animation)
 
     this->delayEnd = 0;
 
-    this->strip.clear(); <<<<<<<
-    this->strip.show(); <<<<<<<<
+    this->strip.clear();
+    this->strip.show();
 }
 
 void Ledstrip::setColour(uint8_t r, uint8_t g, uint8_t b)
@@ -93,7 +96,7 @@ void Ledstrip::WalkIn()
         this->strip.setPixelColor(this->currentLed,this->r, this->g, this->b);
         this->currentLed++;
     } else {
-        // this->setAnimation(none);
+        this->setAnimation(none);
         this->currentLed = 0;
     }
     this->delay(100);
