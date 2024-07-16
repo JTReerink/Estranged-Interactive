@@ -10,9 +10,10 @@ MotionSensor::MotionSensor()
 bool MotionSensor::CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensors)
 {
     this->val = digitalRead(sensorPin);
-    if (this->val == HIGH)
+    Serial.println(this->state);
+    if (this->val == 1)
     {
-        if (this->state == LOW)
+        if (this->state == 0)
         {
             Serial.println((String)"Motion at pin: " + sensorNum + " detected");
             allSensors = true;
@@ -22,11 +23,14 @@ bool MotionSensor::CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensor
     }
     else
     {
-        if (state == HIGH)
+        Serial.println(this->state);
+
+        if (this->state == 1)
         {
             Serial.println((String)"The motion has stopped at: " + sensorNum);
-            sensorNum = 0;
+            allSensors = 0;
             this->state = LOW;
+            return allSensors;
         }
     }
 }
