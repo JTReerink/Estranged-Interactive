@@ -4,18 +4,21 @@
 
 #include <stdint.h>
 
+enum MotionState {
+    nothing,
+    activate,
+    deactivated
+};
+
 class MotionSensor
 {
 private:
-    int sensor;
-    uint8_t val, state, sensorNum, sensorPin;
+    int pin;
+    MotionState state = nothing;
 
 public:
-    MotionSensor();
-    bool sensors[9];
-    int sensorsLength = sizeof(sensors) / sizeof(int);
-
-    bool CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensors);
+    MotionSensor(int pin);
+    MotionState checkState();
 };
 
 #endif

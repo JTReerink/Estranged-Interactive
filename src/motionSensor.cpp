@@ -1,36 +1,44 @@
 #include <Arduino.h>
 #include <motionSensor.h>
 
-MotionSensor::MotionSensor()
+MotionSensor::MotionSensor(int pin)
 {
-    this-> val = 0;
-    this-> state = LOW;
+    this->pin = pin;
+    pinMode(pin, INPUT);
 }
 
-bool MotionSensor::CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensors)
+MotionState MotionSensor::checkState()
 {
-    this->val = digitalRead(sensorPin);
-    Serial.println(this->state);
-    if (this->val == 1)
-    {
-        if (this->state == 0)
-        {
-            Serial.println((String)"Motion at pin: " + sensorNum + " detected");
-            allSensors = true;
-            this->state = HIGH;
-            return allSensors;
-        } else return allSensors;
-    }
-    else
-    {
-        Serial.println(this->state);
+    int value = digitalRead(this->pin);
 
-        if (this->state == 1)
+    switch (this->state)
+    {
+    case nothing:
+        if(value != 1) return;
+
+        // Nu gaan we aan
+        this->state = activate;
+        break;
+
+    case activate:
+        if(value != 0) return;
+
+        this->state = deactivated;
+        break;
+
+    case deactivated:
+        if(value == 1)
         {
-            Serial.println((String)"The motion has stopped at: " + sensorNum);
-            allSensors = 0;
-            this->state = LOW;
-            return allSensors;
-        } else return allSensors;
+            this->state = activate;
+        } else {
+            this->state = nothing;
+        }
+        
+        break;
+    
+    default:
+        break;
     }
+
+    return this->state;
 }

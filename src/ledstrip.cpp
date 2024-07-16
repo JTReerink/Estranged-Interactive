@@ -5,7 +5,7 @@
 #include <ledstrip.h>
 
 //initialize ledstrip
-Ledstrip::Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed)
+Ledstrip::Ledstrip(uint8_t pin, uint8_t leds)
 {
     // Serial.begin(115200);
     this->strip = Adafruit_NeoPixel(leds, pin, NEO_GRB + NEO_KHZ800);
@@ -43,14 +43,16 @@ void Ledstrip::delay(unsigned long delay)
     this->delayEnd = millis() + delay;
 }
 
-void Ledstrip::loop(bool allSensors[], int allSensorsLength)
+void Ledstrip::loop()
 {
     //hier moet gecheckt worden welke sensoren er aan staan
     for (int i = 0; i < allSensorsLength; i++)
     {
+        Serial.println(allSensors[i]);
         if(allSensors[i] = 1) {
             Serial.println((String)"ledstip stuk: " + i);
         } else return;
+        delay(500);
     };
     
 

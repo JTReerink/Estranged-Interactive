@@ -39,7 +39,7 @@ private:
 
     // functies te gebruiken in de main file
 public:
-    Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed);
+    Ledstrip(uint8_t pin, uint8_t leds);
 
     void Init();
 
