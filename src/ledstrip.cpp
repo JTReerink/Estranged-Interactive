@@ -7,7 +7,7 @@
 //initialize ledstrip
 Ledstrip::Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed)
 {
-    Serial.begin(115200);
+    // Serial.begin(115200);
     this->strip = Adafruit_NeoPixel(leds, pin, NEO_GRB + NEO_KHZ800);
 
     this->startLed = startLed;
@@ -43,78 +43,28 @@ void Ledstrip::delay(unsigned long delay)
     this->delayEnd = millis() + delay;
 }
 
-void Ledstrip::loop()
+void Ledstrip::loop(bool allSensors[], int allSensorsLength)
 {
-    if (this->currentAnimation == none)
-        return;
-
-    if (millis() < this->delayEnd)
-        return;
-
-    switch (this->currentAnimation)
+    //hier moet gecheckt worden welke sensoren er aan staan
+    for (int i = 0; i < allSensorsLength; i++)
     {
-    case walkin:
-        this->WalkIn();
-        break;
-
-    case walkout:
-        this->WalkOut();
-        break;
-
-    default:
-        return;
-    }
+        if(allSensors[i] = 1) {
+            Serial.println((String)"ledstip stuk: " + i);
+        } else return;
+    };
+    
 
     this->strip.show();
 }
 
-void Ledstrip::setAnimation(Animation animation)
-{
-    this->currentAnimation = animation;
-
-    // Resetting the animation variables
-    this->currentLed = this->startLed;
-    this->ledOn = false;
-    this->currentLoop = 0;
-
-    this->delayEnd = 0;
-
-    this->strip.clear();
-    this->strip.show();
-}
-
-void Ledstrip::setColour(uint8_t r, uint8_t g, uint8_t b)
-{
-    this->r = r;
-    this->g = g;
-    this->b = b;
-}
 
 void Ledstrip::WalkIn()
 {
-    if(this->currentLed < this->leds) {
-        this->strip.setPixelColor(this->currentLed,this->r, this->g, this->b);
-        this->currentLed++;
-    } else {
-        this->setAnimation(none);
-        this->currentLed = 0;
-    }
+    //hier moeten de ledjes aangezet worden, kleur wordt ergens anders bepaald
     this->delay(100);
 }
 
-void Ledstrip::WalkOut()
-{
-    if(this->currentLed < this->leds) {
-        this->strip.setPixelColor(this->currentLed,0, 0, 0);
-        this->currentLed++;
-    } else {
-        this->setAnimation(none);
-        this->currentLed = 0;
-    }
-    this->delay(100);
-}
-
-void Ledstrip::IdleOn()
+void Ledstrip::Rainbow()
 {
     // regenboog animatie
 }

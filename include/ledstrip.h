@@ -35,22 +35,17 @@ private:
     uint8_t currentLoop = 0;
 
     void WalkIn();
-    void WalkOut();
-    void IdleOn();
+    void Rainbow();
 
     // functies te gebruiken in de main file
 public:
     Ledstrip(uint8_t pin, uint8_t leds, uint8_t startLed);
 
-    // void init();
-
     void Init();
-    void setAnimation(Animation animation);
-    void setColour(uint8_t r, uint8_t g, uint8_t b);
 
     void delay(unsigned long delay);
 
-    void loop();
+    void loop(bool allSensors[], int allSensorsLength);
 };
 
 #endif
