@@ -19,7 +19,7 @@ bool MotionSensor::CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensor
             allSensors = true;
             this->state = HIGH;
             return allSensors;
-        }
+        } else return allSensors;
     }
     else
     {
@@ -31,6 +31,6 @@ bool MotionSensor::CheckMotions(int sensorNum, uint8_t sensorPin, bool allSensor
             allSensors = 0;
             this->state = LOW;
             return allSensors;
-        }
+        } else return allSensors;
     }
 }

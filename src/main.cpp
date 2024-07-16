@@ -43,7 +43,7 @@ void loop()
     //read all motionsensorState
     for (int i = 0; i < sensorStateLength; i++) {
         sensor[i].CheckMotions(i, pins[i], sensorState[i]);
-        delay(50);
+        delay(500);
     }
 
     // strip.loop(sensorState, sensorStateLength);
