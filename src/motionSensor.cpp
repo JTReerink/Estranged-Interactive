@@ -14,22 +14,30 @@ MotionState MotionSensor::checkState()
     switch (this->state)
     {
     case nothing:
-        if(value != 1) return;
+        if(value != 1) break;
 
         // Nu gaan we aan
-        this->state = activate;
+        this->state = activated;
         break;
 
-    case activate:
-        if(value != 0) return;
+    case active:
+        if(value != 0) break;
 
         this->state = deactivated;
+        break;
+
+    case activated:
+        if(value == 0) {
+            this->state = deactivated;
+        } else {
+            this->state = active;
+        }
         break;
 
     case deactivated:
         if(value == 1)
         {
-            this->state = activate;
+            this->state = activated;
         } else {
             this->state = nothing;
         }

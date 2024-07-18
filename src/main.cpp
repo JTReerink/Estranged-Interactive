@@ -11,26 +11,24 @@
 
 #define SENSORS 2
 
-// //een array van elke state van elke sensor
-// bool sensorState[2];
-// //een array met alle elke gebruikte NodeMCU pins
-// int sensorPins[2] {4, 15};
-// //de lengte van de array met alle states
-// int sensorStateLength = sizeof(sensorState) / sizeof(sensorState[0]);
-
-// ledstrip aanmaken
-Ledstrip strip { NEO_PIN, NUM_LEDS};
+Adafruit_NeoPixel strip { NUM_LEDS, NEO_PIN, NEO_GRB + NEO_KHZ800 };
 
 MotionSensor motionSensors[SENSORS] = {
     MotionSensor(4),
     MotionSensor(15)
 };
 
-// Ledstrip strip2 { NEO_PIN, NUM_LEDS, 13 };
-
+// evenveel strips als sensors? JA
+Ledstrip strips[SENSORS] = {
+    Ledstrip(strip, 0, 14),//why 14?
+    Ledstrip(strip, 15, 14)
+};
+ 
 void setup()
 {    
-    strip.Init();
+    strip.setBrightness(255);
+    strip.begin();
+    strip.clear();
 
     // open Serial monitor voor debugging
     Serial.begin(115200);
@@ -50,20 +48,23 @@ void loop()
 
         switch (state)
         {
-        case activate:
-            Serial.println("Currently active!");
+        case activated:
+            Serial.println("Activated!");
+            strips[i].setOn(true);
+            if(i > 0) strips[i - 1].setOn(false);
             
         case deactivated:
             Serial.println("Deactivated");
         
+        case active:
         case nothing:
         default:
             break;
         }
-        // delay(500);
     }
 
-    strip.loop();
-    yield();
+    for (int i = 0; i < SENSORS; i++) strips[i].loop();
 
+    strip.show();
+    yield();
 }

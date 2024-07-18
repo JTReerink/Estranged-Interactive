@@ -9,43 +9,29 @@
 #include <Adafruit_NeoPixel.h>
 #include <stdint.h>
 
-// animaties
-enum Animation
-{
-    none,
-    walkin,
-    walkout,
-    idleOn
-};
-
 // define variables en functies
 class Ledstrip
 {
 private:
     Adafruit_NeoPixel strip;
-    uint8_t r, g, b, pin, leds, startLed;
+    uint8_t leds, startLed, currentLed;
 
-    Animation currentAnimation = Animation::none;
+    bool isOn = false;
 
     unsigned long delayEnd = 0;
 
-    /* Variables for the animation functions */
-    uint8_t currentLed = 0;
-    bool ledOn = false;
-    uint8_t currentLoop = 0;
+    void delay(unsigned long delay);
 
-    void WalkIn();
-    void Rainbow();
+    void walkin();
+    void walkout();
 
     // functies te gebruiken in de main file
 public:
-    Ledstrip(uint8_t pin, uint8_t leds);
+    Ledstrip(Adafruit_NeoPixel& strip, uint8_t startLed, uint8_t leds);
 
-    void Init();
 
-    void delay(unsigned long delay);
-
-    void loop(bool allSensors[], int allSensorsLength);
+    void loop();
+    void setOn(bool isOn);
 };
 
 #endif

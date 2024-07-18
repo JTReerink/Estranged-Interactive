@@ -6,8 +6,9 @@
 
 enum MotionState {
     nothing,
-    activate,
-    deactivated
+    activated,
+    deactivated,
+    active
 };
 
 class MotionSensor
