@@ -32,6 +32,7 @@ public:
 
     void loop();
     void setOn(bool isOn);
+    bool checkLed();
 };
 
 #endif
